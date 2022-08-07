@@ -78,7 +78,6 @@ export const getMe = async (req, res) => {
         }
 
         const { passwordHash, ...userData } = user._doc
-        console.log("userData: ", userData)
         res.json(userData)
     } catch (error) {
 

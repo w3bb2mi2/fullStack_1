@@ -101,7 +101,6 @@ export const update = async (req, res) => {
                 user: req.userId
             }
         )
-        //console.log(post)
         res.json({ success: true })
     } catch (error) {
         console.log(error)
