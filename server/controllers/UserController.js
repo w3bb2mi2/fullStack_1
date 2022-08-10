@@ -2,10 +2,11 @@ import { validationResult } from "express-validator"
 import bcrypt from 'bcrypt'
 import UserModel from "../models/User.js"
 import jwt from "jsonwebtoken"
-
+//регистрация
 export const registration = async (req, res) => {
     try {
         const password = req.body.password
+        console.log(password)
         const solt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, solt)
 
@@ -32,14 +33,15 @@ export const registration = async (req, res) => {
         res.status(500).json(error)
     }
 }
-
+//логин
 export const login = async (req, res) => {
     try {
         const user = await UserModel.findOne({
             email: req.body.email
         })
+        console.log({user})
         if (!user) {
-            return req.status(404).json({
+            return res.status(404).json({
                 message: "Пользователь не найден"
             })
         }
