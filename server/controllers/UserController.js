@@ -26,7 +26,6 @@ export const registration = async (req, res) => {
             { expiresIn: '30d' }
         )
         const { passwordHash, ...userData } = user._doc;
-        console.log(userData)
         res.json({ userData, token })
     } catch (error) {
         console.log(error)
@@ -36,6 +35,7 @@ export const registration = async (req, res) => {
 //логин
 export const login = async (req, res) => {
     try {
+        console.log(req.body.email)
         const user = await UserModel.findOne({
             email: req.body.email
         })
@@ -72,7 +72,6 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
     try {
         const user = await UserModel.findById(req.userId)
-        console.log("user: ", user._doc)
         if (!user) {
             return res.status(404).json({
                 message: "Пользователь не найден"

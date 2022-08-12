@@ -20,6 +20,7 @@ export const Login = () => {
   const dispatch = useDispatch()
 
   const onSubmit = async (values) => {
+    console.log(values)
     const data = await dispatch(fetchAuth(values));
     if(!data.payload){
       alert('Не удалось авторизоваться')
