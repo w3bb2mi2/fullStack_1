@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, fetchTags } from '../redux/slices/post.js';
 export const Home = () => {
   const dispatch = useDispatch()
+  const  userData  = useSelector(state => state.auth)
+  console.log({userData})
   const { posts, tags } = useSelector(state => state.posts)
   const isPostLoading = posts.status === 'loading'
   const isTagsLoading = tags.status === 'loading'
@@ -18,6 +20,7 @@ export const Home = () => {
     dispatch(fetchPosts())
     dispatch(fetchTags())
   }, [])
+  console.log({userData})
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
@@ -28,24 +31,24 @@ export const Home = () => {
         <Grid xs={8} item>
           {(isPostLoading ? [Array(5)] : posts.items).map((elem, index) => (
             isPostLoading ?
-            <Post
-              key={index} isLoading = "true"
-            /> :
-            <Post
-              id={elem._id}
-              title={elem.title}
-              imageUrl={elem.imageUrl}
-              user={{
-                avatarUrl:elem.imageUrl,
-                fullName: elem.user.fullName,
-              }}
-              createdAt={elem.createdAt}
-              viewsCount={elem.viewCount}
-              commentsCount={3}
-              tags={['react', 'fun', 'typescript']}
-              // isLoading={true}
-              isEditable
-            />
+              <Post
+                key={index} isLoading="true"
+              /> :
+              <Post
+                id={elem._id}
+                title={elem.title}
+                imageUrl={elem.imageUrl}
+                user={{
+                  avatarUrl: elem.imageUrl,
+                  fullName: elem.user.fullName,
+                }}
+                createdAt={elem.createdAt}
+                viewsCount={elem.viewCount}
+                commentsCount={3}
+                tags={['react', 'fun', 'typescript']}
+                // isLoading={true}
+                isEditable={userData.data && userData.data._id===elem.user._id}
+              />
           ))}
         </Grid>
         <Grid xs={4} item>

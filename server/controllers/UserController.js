@@ -26,7 +26,8 @@ export const registration = async (req, res) => {
             { expiresIn: '30d' }
         )
         const { passwordHash, ...userData } = user._doc;
-        res.json({ userData, token })
+       // console.log(...userData)
+        res.json({ ...userData, token })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)

@@ -7,13 +7,13 @@ import Avatar from '@mui/material/Avatar';
 
 import styles from './Login.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAuth, fetchRegistration, selectIsAuth } from '../../redux/slices/auth';
+import {  fetchRegistration, selectIsAuth } from '../../redux/slices/auth';
 
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 export const Registration = () => {
-  const isAuth = useSelector(selectIsAuth)
+  
   const dispatch = useDispatch()
   const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({
     defaultValues: {
@@ -22,20 +22,24 @@ export const Registration = () => {
       password: '123456'
     }, mode:'onSubmit'
   })
+  
   const onSubmit = async (value) => {
-    console.log(value)
     const data = await dispatch(fetchRegistration(value))
+    
     if (!data.payload) {
+      
       return alert('Не удалось авторизоваться')
+      
     }
     if ('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token)
     }
-    if (isAuth) {
-      return <Navigate to="/" />
-    }
   }
-
+  const isAuth = useSelector(selectIsAuth)
+  console.log({isAuth})
+  if (isAuth) {
+    return <Navigate to="/"/>
+  }
   return (
     <Paper classes={{ root: styles.root }}>
       <Typography classes={{ root: styles.title }} variant="h5">
@@ -68,7 +72,7 @@ export const Registration = () => {
           className={styles.field}
           label="Пароль"
           fullWidth />
-        <Button  type={'submit'} size="large" variant="contained" fullWidth>
+        <Button   type={'submit'} size="large" variant="contained" fullWidth>
           Зарегистрироваться
         </Button>
       </form>

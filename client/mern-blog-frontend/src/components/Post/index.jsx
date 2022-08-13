@@ -30,7 +30,7 @@ export const Post = ({
   }
 
   const onClickRemove = () => {};
-
+  console.log({isEditable})
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (

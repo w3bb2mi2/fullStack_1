@@ -17,7 +17,7 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (params) =
 // асинхронный редюсер для регистрации нового пользователя
 // ответ от сервера res.json({ userData, token })
 export const fetchRegistration = createAsyncThunk('auth/fetchRegistr', async(params)=>{
-    const { data } = axios.post('/auth/registration',  params )
+    const { data } = await axios.post('/auth/registration',  params )
     return data
 })
 
