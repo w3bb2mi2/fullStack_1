@@ -13,6 +13,7 @@ export const create = async (req, res) => {
 
         const post = await doc.save()
         res.json({ post })
+        console.log("Новый пост был создан")
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -61,7 +62,7 @@ export const getOne = async (req, res) => {
                 if (!doc) { return res.status(404).json({ message: "Статья не найдена" }) }
                 res.json(doc)
             }
-        )
+        ).populate("user")
 
     } catch (error) {
 

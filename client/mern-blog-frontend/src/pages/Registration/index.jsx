@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -13,7 +13,15 @@ import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 export const Registration = () => {
-  
+  //ссылка для input для аватарки
+  const avatarRef = useRef()
+  const handleClick = () =>{
+    avatarRef.current.click()
+  }
+  const getAvatarUrl = () =>{
+    console.log("Выбор файла")
+  }
+
   const dispatch = useDispatch()
   const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({
     defaultValues: {
@@ -36,7 +44,7 @@ export const Registration = () => {
     }
   }
   const isAuth = useSelector(selectIsAuth)
-  console.log({isAuth})
+  
   if (isAuth) {
     return <Navigate to="/"/>
   }
@@ -66,12 +74,17 @@ export const Registration = () => {
           fullWidth />
         <TextField
           {...register('password', { required: 'Укажите пароль' })}
-          helperText={errors.password?.message}
-          
+          helperText={errors.password?.message}          
           error={Boolean(errors.password?.message)}
           className={styles.field}
           label="Пароль"
           fullWidth />
+        <Button onClick={handleClick}>Добавить Аватарку</Button>
+        <input 
+          onChange={getAvatarUrl}
+          hidden
+          ref={avatarRef}
+          type="file"/>
         <Button   type={'submit'} size="large" variant="contained" fullWidth>
           Зарегистрироваться
         </Button>

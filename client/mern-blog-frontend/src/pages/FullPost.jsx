@@ -6,7 +6,7 @@ import { CommentsBlock } from "../components/CommentsBlock";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
+import axios from "../redux/axios";
 //import axios from "..";
 
 export const FullPost = () => {
