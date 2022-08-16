@@ -13,26 +13,31 @@ export const FullPost = () => {
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const { id } = useParams()
+
   useEffect(() => {
-    axios.get(`http://localhost:5000/posts/${id}`)
+    axios.get(`http://localhost:5000/post/${id}`)
       .then(el => { setData(el.data); setIsLoading(false) })
       .catch(err => {
         console.warn(err)
         alert(err)
       })
   }, [])
-  if(isLoading){
+
+  
+
+  if (isLoading) {
     return <Post isLoading={isLoading} />
   }
+  console.log({ data })
 
   return (
     <>
       <Post
         id={data._id}
         title={data.title}
-        imageUrl={data.imageUrl}
+        imageUrl={`http://localhost:5000${data.imageUrl}`}
         user={{
-          avatarUrl:data.imageUrl,
+          avatarUrl: data.imageUrl,
           fullName: data.fullName,
         }}
         createdAt={"12 июня 2022 г."}

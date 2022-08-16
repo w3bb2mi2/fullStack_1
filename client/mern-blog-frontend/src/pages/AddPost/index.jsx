@@ -60,6 +60,7 @@ export const AddPost = () => {
 
   const onChange = React.useCallback((value) => {
     setText(value);
+
   }, []);
 
   const options = React.useMemo(
@@ -125,7 +126,7 @@ export const AddPost = () => {
         variant="standard"
         placeholder="Тэги"
         fullWidth />
-      <SimpleMDE className={styles.editor} value={text} onInput={e => {setText(e.target.value); console.log(text)}} options={options} />
+      <SimpleMDE className={styles.editor} value={text} onChange={e=>onChange(e)} options={options} />
       <div className={styles.buttons}>
         <Button 
           onClick={onSubmit}

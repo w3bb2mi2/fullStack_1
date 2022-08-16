@@ -37,6 +37,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage})
 app.post('/upload', checkAuth, upload.single("image"), (req, res)=>{
+
     res.json({
         url: `/upload/${req.file.originalname}`
     })
@@ -46,10 +47,10 @@ app.post("/auth/registration", registerValidation, handleValidationResult, UserC
 app.post("/auth/login", loginValidation, handleValidationResult, UserController.login)
 app.post("/posts", postCreateValidation, handleValidationResult, checkAuth, PostController.create)// создание поста
 app.get("/tags", PostController.getLastTags)
-app.delete("/posts/:id", postCreateValidation, handleValidationResult, checkAuth, PostController.remove)
+app.delete("/post/:id", postCreateValidation, handleValidationResult, checkAuth, PostController.remove)
 app.get("/auth/me", checkAuth, UserController.getMe)
 app.get("/posts", PostController.getAll)
-app.get("/posts/:id", PostController.getOne)
+app.get("/post/:id", PostController.getOne)
 app.patch("/posts/:id", postCreateValidation, checkAuth, PostController.update)
 
 

@@ -35,7 +35,7 @@ export const Post = ({
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${id}/edit`}>
+          <Link to={`/post/${id}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -49,6 +49,7 @@ export const Post = ({
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
           src={imageUrl}
+          //src={'http://localhost:5000/upload/22eb9763fa50ae8f0cb7e2fca4d3fbbf.jpg'}
           alt={title}
         />
       )}
@@ -56,7 +57,7 @@ export const Post = ({
         <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>
           <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+            {isFullPost ? title : <Link to={`/post/${id}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (

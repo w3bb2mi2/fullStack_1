@@ -2,9 +2,12 @@ import { validationResult } from "express-validator"
 import bcrypt from 'bcrypt'
 import UserModel from "../models/User.js"
 import jwt from "jsonwebtoken"
+import multer from "multer"
 //регистрация
 export const registration = async (req, res) => {
+    
     try {
+        //const upload = 
         const password = req.body.password
         console.log(password)
         const solt = await bcrypt.genSalt(10)

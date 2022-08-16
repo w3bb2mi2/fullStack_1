@@ -4,22 +4,32 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-
+import axios from '../../redux/axios'
 import styles from './Login.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {  fetchRegistration, selectIsAuth } from '../../redux/slices/auth';
 
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 export const Registration = () => {
   //ссылка для input для аватарки
+  const [avatarUrl, setAvatarUrl] = useState("")
   const avatarRef = useRef()
   const handleClick = () =>{
     avatarRef.current.click()
   }
-  const getAvatarUrl = () =>{
+  const getAvatarUrl = async(event) =>{
     console.log("Выбор файла")
+    const file = event.target.files[0]
+    
+    const formData = new FormData()
+    formData.append("image", file)
+    const {data} = await axios.post("/upload", formData)
+    setAvatarUrl(data.url)
+    console.log("data.url", data.url)
+    
   }
 
   const dispatch = useDispatch()
