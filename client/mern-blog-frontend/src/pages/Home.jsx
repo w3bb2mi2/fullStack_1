@@ -37,9 +37,9 @@ export const Home = () => {
               <Post
                 id={elem._id}
                 title={elem.title}
-                imageUrl={elem.imageUrl}
+                imageUrl={elem.imageUrl?`http://localhost:5000${elem.imageUrl}`:""}
                 user={{
-                  avatarUrl: elem.imageUrl,
+                  avatarUrl: `http://localhost:5000${elem.imageUrl}`,
                   fullName: elem.user.fullName,
                 }}
                 createdAt={elem.createdAt}

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "../redux/axios";
+import ReactMarkdown from 'react-markdown'
 //import axios from "..";
 
 export const FullPost = () => {
@@ -23,7 +24,7 @@ export const FullPost = () => {
       })
   }, [])
 
-  
+
 
   if (isLoading) {
     return <Post isLoading={isLoading} />
@@ -47,7 +48,7 @@ export const FullPost = () => {
         isFullPost
       >
         <p>
-          {data.text}
+          <ReactMarkdown children={data.text} />
         </p>
       </Post>
       <CommentsBlock

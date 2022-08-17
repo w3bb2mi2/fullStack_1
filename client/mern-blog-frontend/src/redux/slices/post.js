@@ -12,7 +12,12 @@ export const fetchTags = createAsyncThunk("/post/fetchTags", async () => {
     return data
 })
 
+//создаем новую функцию для асинхронных запросов, необходимо создание именно здесь для отображение изменений в сторе
 
+export const fetchRemovePost = (id) =>createAsyncThunk('posts/fetchRemovePost', async () => {
+    console.log(`/post/${id}`)
+    await axios.delete(`/post/${id}`)
+})
 const initialState = {                         //Начальное значение
     posts: {
         items: [],
@@ -29,6 +34,7 @@ const postSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
+        // получение статей
         [fetchPosts.pending]: (state, action) => {
             state.posts.items = []
             state.posts.status = 'loading'
@@ -41,6 +47,7 @@ const postSlice = createSlice({
             state.posts.items = []
             state.posts.status = "error"
         },
+        // получение тэгов
         [fetchTags.pending]: (state, action) =>{
             state.tags.items = []
             state.tags.status = "loading"
@@ -52,7 +59,12 @@ const postSlice = createSlice({
         [fetchTags.rejected]:(state, action)=>{
             state.tags.items = []
             state.tags.status = "error"
+        },
+        // удаление статей
+        [fetchRemovePost.pending]:(state, action)=>{
+            state.posts.items=state.posts.items.filter(obj=>obj._id === action.payload)
         }
+
     }
 })
 

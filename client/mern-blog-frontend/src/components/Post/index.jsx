@@ -5,11 +5,12 @@ import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-
+import { useDispatch } from 'react-redux'
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
 import { Link } from 'react-router-dom';
+import { fetchRemovePost } from '../../redux/slices/post';
 
 export const Post = ({
   id,
@@ -25,12 +26,20 @@ export const Post = ({
   isLoading,
   isEditable,
 }) => {
+  const dispatch = useDispatch()
+
   if (isLoading) {
     return <PostSkeleton />;
   }
 
-  const onClickRemove = () => {};
-  console.log({isEditable})
+
+  const onClickRemove = () => {
+    if (window.confirm('Вы действитель хотите удалить статью?')) {
+      console.log(id)
+      dispatch(fetchRemovePost(id))
+    }
+  };
+  console.log({ isEditable })
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (

@@ -43,14 +43,18 @@ export const AddPost = () => {
       console.log("Отправка данных на сервер...")
       setIsLoading(true)
       const fields = {
-        title, text, tags, imageUrl
+        title,
+        text,
+        tags: tags.split(","),
+        imageUrl
       }
+      console.log(fields)
       const { data } = await axios.post('/posts', fields)
       const id = data.post._id
       console.log(data)
       navigate(`/post/${id}`)
     } catch (error) {
-
+      console.log(error)
     }
   }
 

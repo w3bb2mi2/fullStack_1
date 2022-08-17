@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken"
 import multer from "multer"
 //регистрация
 export const registration = async (req, res) => {
-    
     try {
         //const upload = 
         const password = req.body.password
