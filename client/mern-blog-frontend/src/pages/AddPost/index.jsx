@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -8,11 +8,12 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../../redux/slices/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 export const AddPost = () => {
-  //console.log({imageUrl})
+  const { id } = useParams()
+  console.log({ id })
   const navigate = useNavigate()
   const isAuth = useSelector(selectIsAuth)
   const [isLoading, setIsLoading] = useState(false)
@@ -23,6 +24,20 @@ export const AddPost = () => {
   const inputFileRef = useRef("null")
   console.log({ text }, { title }, { tags })
 
+  useEffect(() => {
+    if (id) {
+      axios.get(`/post/${id}`)
+        .then(({ data }) => {
+          setTitle(data.title)
+          setText(data.text)
+          setImageUrl(data.imageUrl)
+          setTags(data.tags)
+        })
+    }
+  }, [])
+
+  const isEditing = Boolean(id)
+
   //функция повешена на инпут, в случае загрузки она сработает
   const handleChangeFile = async (event) => {
     console.log("Выбор файла")
@@ -31,7 +46,6 @@ export const AddPost = () => {
       const file = event.target.files[0]
       formData.append('image', file)
       const { data } = await axios.post('/upload', formData)
-      console.log(data.url)
       setImageUrl(data.url)
     } catch (error) {
 
@@ -48,11 +62,15 @@ export const AddPost = () => {
         tags: tags.split(","),
         imageUrl
       }
-      console.log(fields)
-      const { data } = await axios.post('/posts', fields)
-      const id = data.post._id
+
+      const { data } = isEditing
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post('/posts', fields)
+      const _id = isEditing
+        ? id
+        :data.post._id
       console.log(data)
-      navigate(`/post/${id}`)
+      navigate(`/post/${_id}`)
     } catch (error) {
       console.log(error)
     }
@@ -90,7 +108,6 @@ export const AddPost = () => {
       <Button
         onClick={() => {
           inputFileRef.current.click()
-          console.log("input открылся")
         }}
         variant="outlined"
         size="large">
@@ -130,13 +147,13 @@ export const AddPost = () => {
         variant="standard"
         placeholder="Тэги"
         fullWidth />
-      <SimpleMDE className={styles.editor} value={text} onChange={e=>onChange(e)} options={options} />
+      <SimpleMDE className={styles.editor} value={text} onChange={e => onChange(e)} options={options} />
       <div className={styles.buttons}>
-        <Button 
+        <Button
           onClick={onSubmit}
-          size="large" 
+          size="large"
           variant="contained">
-          Опубликовать
+          {id ? "Сохранить" : "Опубликовать"}
         </Button>
         <a href="/">
           <Button size="large">Отмена</Button>

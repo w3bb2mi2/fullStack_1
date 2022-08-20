@@ -5,9 +5,11 @@ import { Route, Routes } from "react-router-dom";
 
 import { Header } from "./components";
 import { Home, FullPost, Registration, AddPost, Login } from "./pages";
+import { TagsPosts } from "./pages/TagsPosts";
 import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
 
 function App() {
+  
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth)
   useEffect(()=>{
@@ -23,7 +25,9 @@ function App() {
           <Route path="/add-post" element={<AddPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration/>}/>
-            {/*<Registration />*/}
+          <Route path="/post/:id/edit" element={<AddPost />} />
+          {/* <Route path="/tags/:tagsName" element={<TagsPosts />} /> */}
+          <Route path="/tags/:tagName" element={<Home />} />
         </Routes>
       </Container>
     </>

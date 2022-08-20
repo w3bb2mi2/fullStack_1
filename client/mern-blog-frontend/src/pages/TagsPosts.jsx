@@ -9,32 +9,25 @@ import { CommentsBlock } from '../components/CommentsBlock';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, fetchPostsByTags, fetchTags, fetchTagsSortedByLatest, fetchTagsSortedByviews } from '../redux/slices/post.js';
 import { useParams } from 'react-router-dom';
-export const Home = () => {
+export const TagsPosts = () => {
   const [value, setValue] = useState(3)
   const dispatch = useDispatch()
   const userData = useSelector(state => state.auth)
   const { posts, tags } = useSelector(state => state.posts)
   const isPostLoading = posts.status === 'loading'
   const isTagsLoading = tags.status === 'loading'
-  const { tagName } = useParams()
+  const { tagsName } = useParams()
 
 
   useEffect(() => {
     dispatch(fetchTags())
 
-    //dispatch(fetchPostsByTags("кола"))
-    if(!tagName){
-      dispatch(fetchPosts())
-      console.log("dispatch(fetchPosts())...")
-    }else{
-      dispatch(fetchPostsByTags(tagName))
-    }
-    console.log("useEffect working...")
-    
+    dispatch(fetchPostsByTags({tags: "cola"}))
+
 
   }, [])
 
-  
+  console.log("Загрузка страницы")
   const handleChange = async (event, newValue) => {
     if (newValue === 0) {
       await dispatch(fetchTagsSortedByLatest())

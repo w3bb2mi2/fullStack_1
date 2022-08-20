@@ -47,9 +47,12 @@ app.post("/auth/registration", registerValidation, handleValidationResult, UserC
 app.post("/auth/login", loginValidation, handleValidationResult, UserController.login)
 app.post("/posts", postCreateValidation, handleValidationResult, checkAuth, PostController.create)// создание поста
 app.get("/tags", PostController.getLastTags)
-app.delete("/post/:id", postCreateValidation, handleValidationResult, checkAuth, PostController.remove)
+app.get("/tags/:tagsName", PostController.getPostsByTags)
+app.delete("/post/:id", checkAuth, PostController.remove)
 app.get("/auth/me", checkAuth, UserController.getMe)
 app.get("/posts", PostController.getAll)
+app.get("/posts/sorted", PostController.getAllSortedByDate)
+app.get("/posts/sortedByViews", PostController.getAllSortedByViews)
 app.get("/post/:id", PostController.getOne)
 app.patch("/posts/:id", postCreateValidation, checkAuth, PostController.update)
 

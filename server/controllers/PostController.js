@@ -25,11 +25,10 @@ export const create = async (req, res) => {
 //получение тэгов
 export const getLastTags = async (req, res) => {
     try {
-        const posts = await PostModel.find().limit(5).exec();
+        const posts = await PostModel.find().exec();
         const tags = posts.map(el => el.tags)
-                          .flat()
-                          .slice(0, 5)
-        console.log(tags)
+            .flat()
+            .slice(0, 7)
         res.json(tags)
     } catch (error) {
         console.log(error)
@@ -41,6 +40,46 @@ export const getLastTags = async (req, res) => {
 export const getAll = async (req, res) => {
     try {
         const posts = await PostModel.find().populate("user").exec()
+        res.json(posts)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Не удалось найти статью'
+        })
+    }
+}
+
+//получение постов по тэгу
+export const getPostsByTags = async (req, res) => {
+    console.log(req.query)
+    const tag = req.query[0]
+    console.log(tag)
+    try {
+        const posts = await PostModel.find({tags: {$regex: `${tag}`}}).populate("user").exec()
+        console.log({posts})
+        res.json(posts)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Не удалось найти статью'
+        })
+    }
+ }
+ 
+export const getAllSortedByDate = async (req, res) => {
+    try {
+        const posts = await PostModel.find().populate("user").sort({ createdAt: -1 }).exec()
+        res.json(posts)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Не удалось найти статью'
+        })
+    }
+}
+export const getAllSortedByViews = async (req, res) => {
+    try {
+        const posts = await PostModel.find().populate("user").sort({ viewCount: -1 }).exec()
         res.json(posts)
     } catch (error) {
         console.log(error)
@@ -82,6 +121,7 @@ export const remove = async (req, res) => {
             }
 
         )
+        console.log(`был удален пост с ID: ${postId}`)
     } catch (error) {
 
     }

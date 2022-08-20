@@ -33,10 +33,10 @@ export const Post = ({
   }
 
 
-  const onClickRemove = () => {
+  const onClickRemove = async(id) => {
     if (window.confirm('Вы действитель хотите удалить статью?')) {
       console.log(id)
-      dispatch(fetchRemovePost(id))
+      await dispatch(fetchRemovePost(id))
     }
   };
   console.log({ isEditable })
@@ -49,7 +49,7 @@ export const Post = ({
               <EditIcon />
             </IconButton>
           </Link>
-          <IconButton onClick={onClickRemove} color="secondary">
+          <IconButton onClick={()=>onClickRemove(id)} color="secondary">
             <DeleteIcon />
           </IconButton>
         </div>
@@ -58,7 +58,6 @@ export const Post = ({
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
           src={imageUrl}
-          //src={'http://localhost:5000/upload/22eb9763fa50ae8f0cb7e2fca4d3fbbf.jpg'}
           alt={title}
         />
       )}

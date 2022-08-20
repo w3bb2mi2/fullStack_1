@@ -44,7 +44,7 @@ export const FullPost = () => {
         createdAt={"12 июня 2022 г."}
         viewsCount={data.viewCount}
         commentsCount={3}
-        tags={["react", "fun", "typescript"]}
+        tags={data.tags}
         isFullPost
       >
         <p>
